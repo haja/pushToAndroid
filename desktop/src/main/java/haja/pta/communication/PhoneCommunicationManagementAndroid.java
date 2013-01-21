@@ -3,6 +3,8 @@
  */
 package haja.pta.communication;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  * @author Harald Jagenteufel
@@ -12,6 +14,8 @@ public class PhoneCommunicationManagementAndroid implements
         IPhoneCommunicationManagement {
 
     private static PhoneCommunicationManagementAndroid s_instance = new PhoneCommunicationManagementAndroid();
+    @Autowired
+    private IConnectionListener _connectionListener;
 
     private PhoneCommunicationManagementAndroid() {
     }
@@ -26,8 +30,7 @@ public class PhoneCommunicationManagementAndroid implements
     
     @Override
     public void startListening() {
-        // TODO Auto-generated method stub
-        
+        new Thread(_connectionListener).start();
     }
 
 }
