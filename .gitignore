@@ -1,1 +1,10 @@
 target/
+
+#=================
+#eclipse-project
+#=================
+*.project
+*.classpath
+*.settings
+*.springBeans
+*.checkstyle
