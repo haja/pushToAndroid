@@ -13,7 +13,7 @@
 		<org.mockito.version>1.9.5</org.mockito.version>
 		<junit.version>4.8.1</junit.version>
 		<maven.plugin.surefire>2.13</maven.plugin.surefire>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.6</jdk.version>
 		<mvn.version>3.0</mvn.version>
 	</properties>
 
@@ -22,6 +22,7 @@
 	<modules>
 		<module>desktop</module>
 		<module>common</module>
+		<module>android</module>
 	</modules>
 
 	<scm>
