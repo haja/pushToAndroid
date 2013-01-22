@@ -12,4 +12,6 @@ public interface IPhoneCommunicationManagement {
 
     public void startListening();
 
+    public void addClient(IClientConnectionHandler client);
+
 }

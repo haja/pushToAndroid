@@ -29,7 +29,7 @@ public class ConnectionListenerTcp implements IConnectionListener {
             
             while(_keepRunning) {
                 Socket clientSocket = serverSocket.accept();
-                new Thread(new ClientHandler(clientSocket)).start();
+                new Thread(new ClientSetupHandler(clientSocket)).start();
             }
             
             serverSocket.close();
