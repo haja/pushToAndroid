@@ -21,6 +21,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>haja.push-to-android</groupId>
+			<artifactId>pta-common</artifactId>
+			<version>${common-project.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<version>2.3.3</version>

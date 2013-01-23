@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PtaAndroidActivity</string>
+    <string name="desktop_host_default">192.168.0.24</string>
 </resources>
