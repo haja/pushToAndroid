@@ -44,6 +44,12 @@ public class ClientSetupHandler implements Runnable {
             outputStream.flush();
             _log.info("written to client");
             
+            for(int i = 0; i < 3; i++) {
+                outputStream.writeObject(new IAmAlive("message 1"));
+                outputStream.writeObject(new IAmAlive("message 2"));
+                outputStream.writeObject(new IAmAlive("message 3"));
+            }
+            
             _socket.close();
             _log.info("socket to client closed");
         } catch(IOException e) {
