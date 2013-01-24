@@ -2,11 +2,14 @@ package haja.pta.service;
 
 import haja.pta.PtaAndroidActivity;
 import haja.pta.R;
+import haja.pta.common.communication.GenericStreamTcp;
+import haja.pta.common.communication.IGenericStream;
 import haja.pta.common.dto.IAmAlive;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 import android.app.Notification;
@@ -43,43 +46,41 @@ public class DesktopCommunicationService extends Service {
         public void run() {
             try {
                 // open connection to desktop and send/receive some data
-                Socket socket = new Socket(_host, _port);
+                IGenericStream<IAmAlive, IAmAlive> stream = new GenericStreamTcp<IAmAlive, IAmAlive>(
+                        InetAddress.getByName(_host), _port);
 
-                ObjectOutputStream outputStream = new ObjectOutputStream(
-                        socket.getOutputStream());
-                ObjectInputStream inputStream = new ObjectInputStream(
-                        socket.getInputStream());
-                outputStream.writeObject(new IAmAlive("android"));
-                outputStream.flush();
+                stream.write(new IAmAlive("android"));
 
                 NotificationManager notificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 //                while(_running) {
-                    IAmAlive desktopAlive = (IAmAlive) inputStream.readObject();
+                    IAmAlive desktopAlive = stream.read();
                     Log.i(TAG, desktopAlive.getMessage());
-                    
-                    Intent resultIntent = new Intent(DesktopCommunicationService.this, PtaAndroidActivity.class);
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.from(DesktopCommunicationService.this);
+
+                    Intent resultIntent = new Intent(
+                            DesktopCommunicationService.this,
+                            PtaAndroidActivity.class);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder
+                            .from(DesktopCommunicationService.this);
                     stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent intent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                    
+                    PendingIntent intent = stackBuilder.getPendingIntent(0,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(
                             DesktopCommunicationService.this);
                     builder.setContentTitle("desk message")
-                            .setContentText(desktopAlive.getMessage())
-                            .setContentIntent(intent)
-                            .setSmallIcon(R.drawable.notification_icon);
-                    
+                    .setContentText(desktopAlive.getMessage())
+                    .setContentIntent(intent)
+                    .setSmallIcon(R.drawable.notification_icon);
+
                     notificationManager.notify(COMMUNICATION_NOTIFICATION_ID,
                             builder.getNotification());
 //                }
 
-                socket.close();
+                stream.close();
             } catch(IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch(ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
