@@ -1,4 +1,7 @@
-package haja.pta.common.communication;
+package haja.pta.common.communication.tcp;
+
+import haja.pta.common.communication.IGenericStream;
+import haja.pta.common.communication.UncheckedCommunicationException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -54,6 +57,7 @@ public class GenericStreamTcp<RequestT, ResponseT> implements
      * 
      * @see haja.pta.communication.IGenericStream#read()
      */
+    @SuppressWarnings("unchecked")
     @Override
     public ResponseT read() throws IOException {
         try {

@@ -3,19 +3,17 @@
  */
 package haja.pta.communication;
 
+import haja.pta.common.communication.IConnectionHandler;
+import haja.pta.common.communication.commands.client.IClientCommand;
+
 import java.io.IOException;
-
-import haja.pta.common.dto.IAmAlive;
-
 
 /**
  * @author Harald Jagenteufel
  *
  */
-public interface IClientConnectionHandler<RequestT, ResponseT> {
+public interface IClientConnectionHandler extends IConnectionHandler {
 
-    ResponseT read() throws ClassNotFoundException, IOException;
-
-    void write(RequestT request) throws IOException;
+    void write(IClientCommand request) throws IOException;
 
 }

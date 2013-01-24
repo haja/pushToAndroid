@@ -3,6 +3,9 @@
  */
 package haja.pta.communication;
 
+import haja.pta.common.communication.commands.client.IClientCommand;
+import haja.pta.common.communication.commands.server.IServerCommand;
+import haja.pta.common.communication.tcp.GenericStreamTcp;
 import haja.pta.util.Config;
 
 import java.io.IOException;
@@ -35,9 +38,9 @@ public class ConnectionListenerTcp implements IConnectionListener {
             
             while(_keepRunning) {
                 Socket clientSocket = serverSocket.accept();
-                ClientSetupHandlerTcp clientSetupHandler = new ClientSetupHandlerTcp(clientSocket);
-                _beanFactory.autowireBean(clientSetupHandler);
-                new Thread(clientSetupHandler).start();
+                _log.info("new client connection from " + clientSocket.getInetAddress());
+                IClientConnectionHandler clientHandler = new ClientConnectionHandler(new GenericStreamTcp<IClientCommand, IServerCommand>(clientSocket));
+                _beanFactory.autowireBean(clientHandler);
             }
             
             serverSocket.close();

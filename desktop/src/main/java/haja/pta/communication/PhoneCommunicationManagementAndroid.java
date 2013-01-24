@@ -4,9 +4,10 @@
 package haja.pta.communication;
 
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -20,7 +21,8 @@ public class PhoneCommunicationManagementAndroid implements
     private static PhoneCommunicationManagementAndroid s_instance = new PhoneCommunicationManagementAndroid();
     @Autowired
     private IConnectionListener _connectionListener;
-    private List<IClientConnectionHandler> _clients = Collections.synchronizedList(new LinkedList<IClientConnectionHandler>());
+    private Map<String, IClientConnectionHandler> _clients = Collections.synchronizedMap(new HashMap<String, IClientConnectionHandler>());
+    private Logger _log = Logger.getLogger(PhoneCommunicationManagementAndroid.class);
 
     private PhoneCommunicationManagementAndroid() {
     }
@@ -35,12 +37,18 @@ public class PhoneCommunicationManagementAndroid implements
     
     @Override
     public void startListening() {
+        _log.info("startListening");
         new Thread(_connectionListener).start();
     }
 
     @Override
-    public void addClient(IClientConnectionHandler client) {
-        _clients.add(client);
+    public void addClient(String user, IClientConnectionHandler client) {
+        _log.info("adding user " + user);
+        _clients.put(user, client);
     }
 
+    @Override
+    public IClientConnectionHandler getClient(String user) {
+        return _clients.get(user);
+    }
 }
