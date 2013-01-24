@@ -1,5 +1,6 @@
 package haja.pta.communication;
 
+import haja.pta.common.communication.GenericStreamTcp;
 import haja.pta.common.dto.IAmAlive;
 
 import java.io.IOException;
@@ -15,14 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Harald Jagenteufel
  *
  */
-public class ClientSetupHandler implements Runnable {
+public class ClientSetupHandlerTcp implements Runnable {
 
     private Socket _socket;
     @Autowired
     private IPhoneCommunicationManagement _phoneCommManagement;
-    private Logger _log = Logger.getLogger(ClientSetupHandler.class);
+    private Logger _log = Logger.getLogger(ClientSetupHandlerTcp.class);
 
-    public ClientSetupHandler(Socket clientSocket) {
+    public ClientSetupHandlerTcp(Socket clientSocket) {
         _socket = clientSocket;
     }
 
@@ -31,23 +32,18 @@ public class ClientSetupHandler implements Runnable {
      */
     @Override
     public void run() {
-        IClientConnectionHandler handler = new ClientConnectionHandler(_socket);
-        _phoneCommManagement.addClient(handler);
-        
         // receive alive and send back
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(_socket.getOutputStream());
-            ObjectInputStream inputStream = new ObjectInputStream(_socket.getInputStream());
-            IAmAlive clientAlive = (IAmAlive) inputStream.readObject();
+            IClientConnectionHandler<IAmAlive, IAmAlive> handler = new ClientConnectionHandler<IAmAlive, IAmAlive>(new GenericStreamTcp<IAmAlive, IAmAlive>(_socket));
+            _phoneCommManagement.addClient(handler);
+            
+            IAmAlive clientAlive = handler.read();
             _log.info("client alive: " + clientAlive.getMessage());
-            outputStream.writeObject(new IAmAlive("desktop"));
-            outputStream.flush();
+            handler.write(new IAmAlive("desktop"));
             _log.info("written to client");
             
             for(int i = 0; i < 3; i++) {
-                outputStream.writeObject(new IAmAlive("message 1"));
-                outputStream.writeObject(new IAmAlive("message 2"));
-                outputStream.writeObject(new IAmAlive("message 3"));
+                handler.write(new IAmAlive("message " + i));
             }
             
             _socket.close();

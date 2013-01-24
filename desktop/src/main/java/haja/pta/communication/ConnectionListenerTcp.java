@@ -31,12 +31,11 @@ public class ConnectionListenerTcp implements IConnectionListener {
     @Override
     public void run() {
         try {
-            _log.info("config: " + _config);
             ServerSocket serverSocket = new ServerSocket(_config.getInt("desktop_port"));
             
             while(_keepRunning) {
                 Socket clientSocket = serverSocket.accept();
-                ClientSetupHandler clientSetupHandler = new ClientSetupHandler(clientSocket);
+                ClientSetupHandlerTcp clientSetupHandler = new ClientSetupHandlerTcp(clientSocket);
                 _beanFactory.autowireBean(clientSetupHandler);
                 new Thread(clientSetupHandler).start();
             }
