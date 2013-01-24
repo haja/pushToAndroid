@@ -1,7 +1,7 @@
 /**
  * 
  */
-package haja.pta.android.service;
+package haja.pta.service;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import haja.pta.PtaAndroidActivity;
 import haja.pta.R;
-import haja.pta.android.activity.PtaAndroidActivity;
 import haja.pta.common.communication.infrastructure.IClientInfrastructure;
 
 
