@@ -1,7 +1,7 @@
 /**
  * 
  */
-package haja.pta.communication;
+package haja.pta.desktop.communication;
 
 import haja.pta.common.communication.infrastructure.IServerInfrastructure;
 

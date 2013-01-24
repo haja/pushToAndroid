@@ -1,4 +1,4 @@
-package haja.pta.communication;
+package haja.pta.desktop.communication;
 
 import haja.pta.common.communication.IGenericStream;
 import haja.pta.common.communication.commands.client.IClientCommand;

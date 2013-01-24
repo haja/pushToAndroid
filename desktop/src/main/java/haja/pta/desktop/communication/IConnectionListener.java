@@ -1,4 +1,4 @@
-package haja.pta.communication;
+package haja.pta.desktop.communication;
 
 /**
  * @author Harald Jagenteufel

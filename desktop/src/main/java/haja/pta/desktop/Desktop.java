@@ -1,6 +1,6 @@
-package haja.pta;
+package haja.pta.desktop;
 
-import haja.pta.communication.IPhoneCommunicationManagement;
+import haja.pta.desktop.communication.IPhoneCommunicationManagement;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
