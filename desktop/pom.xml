@@ -69,7 +69,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>haja.pta.Desktop</mainClass>
+							<mainClass>haja.pta.desktop.Desktop</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
