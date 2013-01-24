@@ -1,4 +1,4 @@
-package haja.pta.service;
+package haja.pta.android.service;
 
 import haja.pta.R;
 import haja.pta.common.communication.IGenericStream;

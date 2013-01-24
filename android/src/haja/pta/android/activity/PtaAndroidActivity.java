@@ -1,6 +1,7 @@
-package haja.pta;
+package haja.pta.android.activity;
 
-import haja.pta.service.DesktopCommunicationService;
+import haja.pta.R;
+import haja.pta.android.service.DesktopCommunicationService;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
