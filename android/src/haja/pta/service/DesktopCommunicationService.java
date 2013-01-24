@@ -1,5 +1,6 @@
 package haja.pta.service;
 
+import haja.pta.PtaAndroidActivity;
 import haja.pta.R;
 import haja.pta.common.dto.IAmAlive;
 
@@ -8,13 +9,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.Toast;
-
 
 /**
  * @author Harald Jagenteufel
@@ -23,8 +29,8 @@ import android.widget.Toast;
 public class DesktopCommunicationService extends Service {
 
     private static final String PREFS_NAME = "desktop.config";
-
     protected static final String TAG = "DesktopCommunicationService";
+    protected static final int COMMUNICATION_NOTIFICATION_ID = 0;
 
     private String _host;
     private int _port;
@@ -46,10 +52,28 @@ public class DesktopCommunicationService extends Service {
                 outputStream.writeObject(new IAmAlive("android"));
                 outputStream.flush();
 
-                while(_running) {
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+//                while(_running) {
                     IAmAlive desktopAlive = (IAmAlive) inputStream.readObject();
                     Log.i(TAG, desktopAlive.getMessage());
-                }
+                    
+                    Intent resultIntent = new Intent(DesktopCommunicationService.this, PtaAndroidActivity.class);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.from(DesktopCommunicationService.this);
+                    stackBuilder.addNextIntent(resultIntent);
+                    PendingIntent intent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                    
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                            DesktopCommunicationService.this);
+                    builder.setContentTitle("desk message")
+                            .setContentText(desktopAlive.getMessage())
+                            .setContentIntent(intent)
+                            .setSmallIcon(R.drawable.notification_icon);
+                    
+                    notificationManager.notify(COMMUNICATION_NOTIFICATION_ID,
+                            builder.getNotification());
+//                }
 
                 socket.close();
             } catch(IOException e) {
