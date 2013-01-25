@@ -18,4 +18,12 @@
 		</constructor-arg>
 	</bean>
 
+
+	<bean id="DesktopCli" class="haja.pta.desktop.cli.DesktopCli" init-method="init">
+		<property name="callbacks">
+			<list>
+				<bean class="haja.pta.desktop.cli.commands.NotificationCliCommand" />
+			</list>
+		</property>
+	</bean>
 </beans>

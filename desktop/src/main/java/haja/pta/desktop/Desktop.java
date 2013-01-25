@@ -1,5 +1,6 @@
 package haja.pta.desktop;
 
+import haja.pta.desktop.cli.DesktopCli;
 import haja.pta.desktop.communication.IPhoneCommunicationManagement;
 
 import org.apache.log4j.Logger;
@@ -21,5 +22,8 @@ public class Desktop {
 		IPhoneCommunicationManagement phoneCommMan = ctx.getBean(IPhoneCommunicationManagement.class);
 		phoneCommMan.startListening();
 		s_log.info("startup finished");
+		
+		DesktopCli cli = ctx.getBean(DesktopCli.class);
+		cli.getReader().startReadingFromCLI();
 	}
 }

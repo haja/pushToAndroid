@@ -1,6 +1,3 @@
-/**
- * 
- */
 package haja.pta.service;
 
 import android.app.NotificationManager;
@@ -33,7 +30,7 @@ public class ClientInfrastructureAndroid implements IClientInfrastructure {
                 (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public void displayNotification() {
+    public void displayNotification(String title, String message) {
 
         Intent resultIntent = new Intent(
                 _service,
@@ -46,8 +43,8 @@ public class ClientInfrastructureAndroid implements IClientInfrastructure {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 _service);
-        builder.setContentTitle("desk message")
-                .setContentText("message")
+        builder.setContentTitle(title)
+                .setContentText(message)
                 .setContentIntent(intent)
                 .setSmallIcon(R.drawable.notification_icon);
 
