@@ -1,5 +1,6 @@
 package haja.pta.service;
 
+import haja.pta.R;
 import haja.pta.common.communication.infrastructure.IClientInfrastructure;
 import haja.pta.notification.PtaNotificationManager;
 import haja.pta.service.media.PtaMediaManager;
@@ -32,5 +33,6 @@ public class ClientInfrastructureAndroid implements IClientInfrastructure {
     @Override
     public void playMedia(String url) {
         _ptaMediaManager.play(url);
+        _ptaNotificationManager.dsplayOngoingNotification(_service.getResources().getText(R.string.notifictation_title_mediaplayback), url);
     }
 }

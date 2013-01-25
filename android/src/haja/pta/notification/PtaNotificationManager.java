@@ -19,25 +19,45 @@ public class PtaNotificationManager {
     private Service s_service;
 
     private static final int COMMUNICATION_NOTIFICATION_ID = 0;
+    private static final int ONGOING_NOTIFICATION_ID = 1;
 
     private PtaNotificationManager() {
-        
+
     }
-    
+
     public void init(Service service) {
         s_service = service;
         _notificationManager =
-                (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) service
+                        .getSystemService(Context.NOTIFICATION_SERVICE);
     }
-    
+
     public static PtaNotificationManager getInstance() {
-        return s_instance ;
+        return s_instance;
     }
 
     public void displayNotification(String title, String message) {
+        NotificationCompat.Builder builder = defaultNotificatoinBuilder(title,
+                message, PtaAndroidActivity.class);
+
+        _notificationManager.notify(COMMUNICATION_NOTIFICATION_ID,
+                builder.getNotification());
+    }
+
+    public void dsplayOngoingNotification(CharSequence title, String message) {
+        NotificationCompat.Builder builder = defaultNotificatoinBuilder(title,
+                message, PtaAndroidActivity.class);
+        builder.setOngoing(true);
+
+        _notificationManager.notify(ONGOING_NOTIFICATION_ID,
+                builder.getNotification());
+    }
+
+    private NotificationCompat.Builder defaultNotificatoinBuilder(
+            CharSequence title, String message, Class<?> activity) {
         Intent resultIntent = new Intent(
                 s_service,
-                PtaAndroidActivity.class);
+                activity);
         TaskStackBuilder stackBuilder = TaskStackBuilder
                 .from(s_service);
         stackBuilder.addNextIntent(resultIntent);
@@ -52,9 +72,7 @@ public class PtaNotificationManager {
                 .setTicker(message)
                 .setContentIntent(intent)
                 .setSmallIcon(R.drawable.notification_icon);
-
-        _notificationManager.notify(COMMUNICATION_NOTIFICATION_ID,
-                builder.getNotification());
+        return builder;
     }
 
 
