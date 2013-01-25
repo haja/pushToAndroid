@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import haja.pta.common.cli.ICommandCallback;
 import haja.pta.common.communication.commands.client.NotificationCommand;
+import haja.pta.desktop.communication.IClientConnectionHandler;
 import haja.pta.desktop.communication.IPhoneCommunicationManagement;
 
 
@@ -22,7 +23,12 @@ public class NotificationCliCommand implements ICommandCallback {
     @Override
     public void call(String... args) {
         try {
-            _commManagement.getClient(args[0]).write(new NotificationCommand(args[1]));
+            IClientConnectionHandler client = _commManagement.getClient(args[0]);
+            if(client == null) {
+                System.out.println("user " + args[0] + " not found");
+                return;
+            }
+            client.write(new NotificationCommand(args[1]));
         } catch(IOException e) {
             e.printStackTrace();
         }
