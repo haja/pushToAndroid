@@ -15,6 +15,7 @@ import android.support.v4.app.TaskStackBuilder;
 import haja.pta.PtaAndroidActivity;
 import haja.pta.R;
 import haja.pta.common.communication.infrastructure.IClientInfrastructure;
+import haja.pta.notification.PtaNotificationManager;
 
 
 /**
@@ -24,41 +25,20 @@ import haja.pta.common.communication.infrastructure.IClientInfrastructure;
 public class ClientInfrastructureAndroid implements IClientInfrastructure {
 
 
-    private NotificationManager _notificationManager;
     private Service _service;
+    private PtaNotificationManager _ptaNotificationManager;
 
-    private static final int COMMUNICATION_NOTIFICATION_ID = 0;
 
     public ClientInfrastructureAndroid(Service service) {
         _service = service;
-        _notificationManager =
-                (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+        _ptaNotificationManager = PtaNotificationManager.getInstance();
+        _ptaNotificationManager.init(service);
     }
 
     public void displayNotification(String title, String message) {
-
-        Intent resultIntent = new Intent(
-                _service,
-                PtaAndroidActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder
-                .from(_service);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent intent = stackBuilder.getPendingIntent(0,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(
-                _service);
-        builder.setDefaults(Notification.DEFAULT_ALL)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setTicker(message)
-                .setContentIntent(intent)
-                .setSmallIcon(R.drawable.notification_icon);
-
-        _notificationManager.notify(COMMUNICATION_NOTIFICATION_ID,
-                builder.getNotification());
+        _ptaNotificationManager.displayNotification(title, message);
     }
-
+    
     @Override
     public void playMedia(String url) {
         MediaPlayer mediaPlayer = new MediaPlayer();
