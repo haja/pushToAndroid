@@ -19,7 +19,6 @@ public class PtaNotificationManager {
     private Service s_service;
 
     private static final int COMMUNICATION_NOTIFICATION_ID = 0;
-    private static final int ONGOING_NOTIFICATION_ID = 1;
 
     private PtaNotificationManager() {
 
@@ -44,13 +43,23 @@ public class PtaNotificationManager {
                 builder.getNotification());
     }
 
-    public void dsplayOngoingNotification(CharSequence title, String message) {
+    public void dsplayOngoingNotification(int id, CharSequence title,
+            String message) {
+        Notification notification = createOngoingNotification(title, message);
+        _notificationManager.notify(id, notification);
+    }
+
+    public void cancleNotification(int id) {
+        _notificationManager.cancel(id);
+    }
+
+    public Notification createOngoingNotification(
+            CharSequence title, String message) {
         NotificationCompat.Builder builder = defaultNotificatoinBuilder(title,
                 message, PtaAndroidActivity.class);
         builder.setOngoing(true);
 
-        _notificationManager.notify(ONGOING_NOTIFICATION_ID,
-                builder.getNotification());
+        return builder.getNotification();
     }
 
     private NotificationCompat.Builder defaultNotificatoinBuilder(
@@ -74,6 +83,4 @@ public class PtaNotificationManager {
                 .setSmallIcon(R.drawable.notification_icon);
         return builder;
     }
-
-
 }

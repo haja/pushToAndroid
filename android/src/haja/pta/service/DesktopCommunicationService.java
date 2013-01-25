@@ -25,7 +25,7 @@ public class DesktopCommunicationService extends Service {
 
     private static final String PREFS_NAME = "desktop.config";
     protected static final String TAG = "DesktopCommunicationService";
-    
+
     private IClientInfrastructure _infrastructure;
 
     private Runnable _serviceRunnable = new Runnable() {
@@ -40,12 +40,12 @@ public class DesktopCommunicationService extends Service {
                         .getString(R.string.desktop_host_default));
                 int port = settings.getInt("desktop_port", getResources()
                         .getInteger(R.integer.desktop_port_default));
-                
-                // open connection to desktop and send/receive some data
+
                 IGenericStream<IServerCommand, IClientCommand> stream = new GenericStreamTcp<IServerCommand, IClientCommand>(
                         InetAddress.getByName(host), port);
-
-                stream.write(new LoginCommand("android_user"));
+                
+                stream.write(new LoginCommand("android"));
+                _infrastructure = new ClientInfrastructureAndroid(DesktopCommunicationService.this, stream);
 
                 while(_running) {
                     IClientCommand cmd = stream.read();
@@ -70,8 +70,7 @@ public class DesktopCommunicationService extends Service {
     @Override
     public void onCreate() {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-        _infrastructure = new ClientInfrastructureAndroid(this);
-        
+
         Thread thread = new Thread(null, _serviceRunnable, "ptaClient");
         thread.start();
     }

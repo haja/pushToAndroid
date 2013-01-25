@@ -1,22 +1,22 @@
 package haja.pta.desktop.cli.commands;
 
-import haja.pta.common.communication.commands.client.NotificationCommand;
+import haja.pta.common.communication.commands.client.MediaStopCommand;
 import haja.pta.desktop.communication.IClientConnectionHandler;
 
 import java.io.IOException;
 
 
-public class NotificationCliCommand extends AbstractUserCliCommand {
+public class MediaStopCliCommand extends AbstractUserCliCommand {
 
-    private static final String sf_cmd = "notify";
-    private static final int sf_argsCount = 2;
-
+    private static final String sf_cmd = "stop";
+    private static final int sf_argCount = 1;
+    
     @Override
     protected void userCall(IClientConnectionHandler client, String[] args)
             throws IOException {
-        client.write(new NotificationCommand(args[1]));
+        client.write(new MediaStopCommand());
     }
-    
+
     @Override
     public String getCmd() {
         return sf_cmd;
@@ -24,11 +24,11 @@ public class NotificationCliCommand extends AbstractUserCliCommand {
 
     @Override
     public int argCount() {
-        return sf_argsCount;
+        return sf_argCount;
     }
 
     @Override
     public void helpMessage() {
-        System.out.println(sf_cmd + " <user> <message>");
+        System.out.println(sf_cmd + " <user>");
     }
 }

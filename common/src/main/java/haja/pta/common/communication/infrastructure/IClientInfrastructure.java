@@ -6,4 +6,6 @@ public interface IClientInfrastructure {
     public void displayNotification(String title, String message);
 
     public void playMedia(String url);
+
+    public void stopMedia();
 }

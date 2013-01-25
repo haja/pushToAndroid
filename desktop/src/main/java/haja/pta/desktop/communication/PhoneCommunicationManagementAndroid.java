@@ -51,4 +51,9 @@ public class PhoneCommunicationManagementAndroid implements
     public IClientConnectionHandler getClient(String user) {
         return _clients.get(user);
     }
+
+    @Override
+    public void displayMessage(String message) {
+        _log.info(message);
+    }
 }
