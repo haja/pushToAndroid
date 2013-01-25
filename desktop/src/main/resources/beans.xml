@@ -23,6 +23,7 @@
 		<property name="callbacks">
 			<list>
 				<bean class="haja.pta.desktop.cli.commands.NotificationCliCommand" />
+				<bean class="haja.pta.desktop.cli.commands.MediaPlaybackCliCommand" />
 			</list>
 		</property>
 	</bean>

@@ -1,11 +1,15 @@
 package haja.pta.service;
 
+import java.io.IOException;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import haja.pta.PtaAndroidActivity;
@@ -53,5 +57,25 @@ public class ClientInfrastructureAndroid implements IClientInfrastructure {
 
         _notificationManager.notify(COMMUNICATION_NOTIFICATION_ID,
                 builder.getNotification());
+    }
+
+    @Override
+    public void playMedia(String url) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch(IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch(IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch(IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
