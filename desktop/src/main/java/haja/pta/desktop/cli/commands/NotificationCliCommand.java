@@ -37,4 +37,9 @@ public class NotificationCliCommand implements ICommandCallback {
         return sf_argsCount;
     }
 
+    @Override
+    public void helpMessage() {
+        System.out.println(sf_cmd + " <user> <message>");
+    }
+
 }

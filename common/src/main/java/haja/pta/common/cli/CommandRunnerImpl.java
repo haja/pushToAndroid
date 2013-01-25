@@ -32,7 +32,8 @@ public class CommandRunnerImpl implements ICommandRunner {
 			return;
 		}
 		if(cmd.argCount() != callback.argCount()) {
-		    _illegalCommandCallback.call(cmd.cmd() + " invalid arguments count");
+		    callback.helpMessage();
+		    return;
 		}
 		callback.call(cmd.args());
 	}

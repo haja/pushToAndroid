@@ -20,4 +20,8 @@ public class EofReachedCommand implements ICommandCallback {
         return 0;
     }
 
+    @Override
+    public void helpMessage() {
+    }
+
 }

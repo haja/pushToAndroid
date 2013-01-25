@@ -27,4 +27,9 @@ public interface ICommandCallback {
      */
     public int argCount();
 
+    /**
+     * display a help message
+     */
+    public void helpMessage();
+
 }
