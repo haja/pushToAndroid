@@ -1,5 +1,6 @@
 package haja.pta.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -43,8 +44,10 @@ public class ClientInfrastructureAndroid implements IClientInfrastructure {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(
                 _service);
-        builder.setContentTitle(title)
+        builder.setDefaults(Notification.DEFAULT_ALL)
+                .setContentTitle(title)
                 .setContentText(message)
+                .setTicker(message)
                 .setContentIntent(intent)
                 .setSmallIcon(R.drawable.notification_icon);
 
