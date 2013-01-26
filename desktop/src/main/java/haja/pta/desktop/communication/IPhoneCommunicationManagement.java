@@ -18,4 +18,6 @@ public interface IPhoneCommunicationManagement extends IServerInfrastructure {
 
     public IClientConnectionHandler getClient(String user);
 
+    public void shutdown();
+
 }

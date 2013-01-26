@@ -16,4 +16,6 @@ public interface IClientConnectionHandler extends IConnectionHandler {
 
     void write(IClientCommand request) throws IOException;
 
+    void close();
+
 }

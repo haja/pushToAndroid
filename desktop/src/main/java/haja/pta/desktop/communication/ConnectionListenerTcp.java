@@ -30,20 +30,32 @@ public class ConnectionListenerTcp implements IConnectionListener {
     
     @Autowired
     private AutowireCapableBeanFactory _beanFactory;
+    private ServerSocket _serverSocket;
 
     @Override
     public void run() {
         try {
-            ServerSocket serverSocket = new ServerSocket(_config.getInt("desktop_port"));
+            _serverSocket = new ServerSocket(_config.getInt("desktop_port"));
             
             while(_keepRunning) {
-                Socket clientSocket = serverSocket.accept();
+                Socket clientSocket = _serverSocket.accept();
                 _log.info("new client connection from " + clientSocket.getInetAddress());
                 IClientConnectionHandler clientHandler = new ClientConnectionHandler(new GenericStreamTcp<IClientCommand, IServerCommand>(clientSocket));
                 _beanFactory.autowireBean(clientHandler);
             }
             
-            serverSocket.close();
+            _serverSocket.close();
+        } catch(IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void close() {
+        _keepRunning = false;
+        try {
+            _serverSocket.close();
         } catch(IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

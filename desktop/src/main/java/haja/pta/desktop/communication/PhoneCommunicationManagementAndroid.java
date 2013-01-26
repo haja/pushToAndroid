@@ -56,4 +56,13 @@ public class PhoneCommunicationManagementAndroid implements
     public void displayMessage(String message) {
         _log.info(message);
     }
+    
+    @Override
+    public void shutdown() {
+        _log.info("comunicationManagemt shutting down");
+        _connectionListener.close();
+        for(IClientConnectionHandler client: _clients.values()) {
+            client.close();
+        }
+    }
 }

@@ -15,13 +15,13 @@ public class DesktopCli {
     private CommandRunnerImpl _commandRunner;
     private List<ICommandCallback> _callbacks;
 
-    /**
-     * Setup logic for the CLI.
-     */
     public DesktopCli() {
 
     }
 
+    /**
+     * Setup logic for the CLI.
+     */
     public void init() {
         ICommandCallback illegalCommandCallback = new IllegalCommand();
         ICommandCallback eofReachedCallback = new EofReachedCommand();

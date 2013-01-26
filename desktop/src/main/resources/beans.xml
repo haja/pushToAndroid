@@ -25,6 +25,7 @@
 				<bean class="haja.pta.desktop.cli.commands.NotificationCliCommand" />
 				<bean class="haja.pta.desktop.cli.commands.MediaPlayCliCommand" />
 				<bean class="haja.pta.desktop.cli.commands.MediaStopCliCommand" />
+				<bean class="haja.pta.desktop.cli.commands.ExitCliCommand" />
 			</list>
 		</property>
 	</bean>

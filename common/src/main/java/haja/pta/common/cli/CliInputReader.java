@@ -59,4 +59,14 @@ public class CliInputReader {
 	public void setBufferedReader(BufferedReader reader) {
 		_inputReader = reader;
 	}
+	
+	public void close() {
+	    System.out.println("Closing reader");
+	    try {
+            _inputReader.close();
+        } catch(IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
 }

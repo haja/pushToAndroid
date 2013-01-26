@@ -6,4 +6,6 @@ package haja.pta.desktop.communication;
  */
 public interface IConnectionListener extends Runnable {
 
+    public void close();
+
 }

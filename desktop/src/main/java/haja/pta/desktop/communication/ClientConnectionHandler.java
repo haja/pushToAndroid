@@ -18,11 +18,13 @@ public class ClientConnectionHandler implements IClientConnectionHandler {
     private IGenericStream<IClientCommand, IServerCommand> _stream;
     @Autowired
     private IPhoneCommunicationManagement _phoneCommManagement;
+    private ClientConnectionReaderRunnable _runnable;
 
     public ClientConnectionHandler(
             IGenericStream<IClientCommand, IServerCommand> stream) {
         _stream = stream;
-        new Thread(new ClientConnectionReaderRunnable()).start();
+        _runnable = new ClientConnectionReaderRunnable();
+        new Thread(_runnable).start();
     }
 
     @Override
@@ -55,10 +57,25 @@ public class ClientConnectionHandler implements IClientConnectionHandler {
                 e.printStackTrace();
             }
         }
+
+        public void stop() {
+            _running = false;
+        }
     }
 
     @Override
     public void login(String user) {
         _phoneCommManagement.addClient(user, this);
+    }
+
+    @Override
+    public void close() {
+        _runnable.stop();
+        try {
+            _stream.close();
+        } catch(IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
